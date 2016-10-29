@@ -1,25 +1,11 @@
 # The deployment section should be excluded until
 # it is explicitly included in module 5
-
-machine:
-  services:
-  - docker
-
-dependencies:
-  override:
-    - docker info
-    - docker build --rm=false -t abhi-kala/docker-workflow-test .
-
+# changed the curl command in the ci settings to get trigger to work
 deployment:
-  hub:
+  dockerhub:
     branch: master
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push abhi-kala/docker-workflow-test
-
-notify:
-  webhooks:
-    - url: https://registry.hub.docker.com/u/abhikala/docker-workflow-test/trigger/3ccfb367-9ba7-4e65-bb1f-59f0b1628cb6/
+      - $DOCKER_HUB_TRIGGER
 
 test:
   override:
